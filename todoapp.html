@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To-do App</title>
+
+  <!-- JS Libraries -->
+  <link rel="stylesheet" type="text/css" href="todoappstyle.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.7/backbone.localStorage-min.js" type="text/javascript"></script> 
+  <script src="TODOAPP.js" type="text/javascript"></script> 
+  <!-- CSS -->
+
+ 
+<!-- html -->
+<div class = "main1" width = '600' height ='650' >
+  <section id="todoapp">
+    <header id="header" align = 'center'>
+      <h1>TO-DO APP</h1>
+      <input id="new-todo" placeholder="Enter your to-do tasks">
+    </header>
+    <section id="main">
+      <ul id="todo-list"></ul>
+    </section>
+  </section>
+  <footer>
+    <a id="destroyAll">Delete All Tasks</a>
+  </footer>
+</div>
+
+  <!-- Templates -->
+  <script type="text/template" id="template1">
+    <div class="view">
+      <input class="toggle" type="checkbox" <%= taskDone ? 'checked' : '' %>>
+      <label><%= title %></label>
+      <input class="edit hide" value="<%= title %>"> 
+      <button class="destroy">remove</button>
+    </div>
+  </script>  
+  <script type="text/template" id="template2">
+       <% if(taskDone) { %>
+        <a id = "destroyAll hide2"> clear <%= taskDone %> completed <%= taskDone == 1 ? 'item': 'items' %> </a> <% } %>
+       </script>    
+
+</body>
+</html>
