@@ -1,5 +1,6 @@
 //create a model
-    var Todo = Backbone.Model.extend({
+    'use strict';
+        var Todo = Backbone.Model.extend({
       defaults: function(){
         return {
         title: 'default-to-do-list',
@@ -16,10 +17,17 @@
     });
   //create a COLLECTION
     var ToDoCollection = Backbone.Collection.extend({
-      model: Todo,
-      localStorage: new Backbone.LocalStorage("backbone-todo-storage"),
-      taskDone:function(){
+              model: Todo,
+              localStorage: new Backbone.LocalStorage("backbone-todo-storage"),
+             /* completed:function(){
+                return this.where({completed:true}) ;
+      },*/
+      /*taskDone:function(){
         return this.filter(function(todo){return todo.get('taskDone');});
+      }*/
+
+      taskDone:function(){
+        return this.where({taskDone:true});
       }
 
     });
@@ -45,6 +53,7 @@
          this.listenTo(this.model, 'change', this.render);
         //removing the view 
          this.listenTo(this.model, 'destroy', this.remove);
+        /* this.listenTo(this.model, 'destroyAll', this.remove);*/
       },
 
       render: function(){
@@ -58,9 +67,9 @@
     
       //edit the input
       edit: function(){
-        //this.$el.addClass('editing');
+        this.$el.addClass('editing');
         this.input.removeClass('hide');
-        //this.input.focus();
+        this.input.focus();
       },
       //save changes and close the edit mode
       close: function(){
@@ -68,7 +77,7 @@
         if(value) {
           this.model.save({title: value});
         }
-       // this.$el.removeClass('editing');
+        this.$el.removeClass('editing');
       },
       //add a new task by hitting enter -(save the current one and be able to add another)
       addTask: function(event){
@@ -96,10 +105,13 @@
 
       initialize: function () {
         this.template =_.template($('#template2').html());
-        this.input = this.$('#new-todo');
+        this.$input = this.$('#new-todo');
+
         this.listenTo(toDoCollection, 'add', this.addSingleItem);
         this.listenTo(toDoCollection, 'reset', this.addAllItems);
-        this.footer =this.$('footer');
+
+        this.$footer = this.$('footer');
+      /*  this.footer =this.$('footer');*/
         toDoCollection.fetch(); /* Loads the entire list from local storage - u want your 
         to-do items to stay even after refresh or closing and opening the browser again */
        
@@ -108,24 +120,26 @@
 
       render: function()
       {
-      /*  var taskDone = toDoCollection.taskDone().length;*/
-      if(taskDone)
+         this.$el.html(this.template(this.model.toJSON()));
+       var taskDone = toDoCollection.taskDone().length;
+      if(toDoCollection.length)
       {
-        this.footer.show();
-        this.footer.html(this.template2({taskDone: taskDone}));
+        this.$footer.show();
+        this.$footer.html(this.template2({taskDone: taskDone}));
       }
       else
       {
-         this.footer.hide();
+         this.$footer.hide();
       }
       },
       
       AddNewEntry: function(event){
-        if ( event.which !== 13 || !this.input.val() ) { 
+        if ( event.which !== 13 || !this.$input.val() ) { 
           return;
+          
         }
-        toDoCollection.create({title: this.input.val(), taskDone: false});
-        this.input.val(''); // clean input box
+        toDoCollection.create({title: this.$input.val(), taskDone: false});
+        this.$input.val(''); // clean input box
       },
       addSingleItem: function(todoitem){
         var view = new TodoView({model: todoitem});

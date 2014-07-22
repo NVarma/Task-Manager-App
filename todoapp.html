@@ -25,8 +25,8 @@
       <ul id="todo-list"></ul>
     </section>
   </section>
-  <footer>
-    <a id="destroyAll">Delete All Tasks</a>
+  <footer > <button id ='destroyAll'> Delete Tasks at once </button>
+  <!--   <button id="destroyAll">Delete All Tasks</button> -->
   </footer>
 </div>
 
@@ -41,7 +41,7 @@
   </script>  
   <script type="text/template" id="template2">
        <% if(taskDone) { %>
-        <a id = "destroyAll"> clear <%= taskDone %> completed <%= taskDone == 1 ? 'item': 'items' %> </a> <% } %>
+       	<button id = "destroyAll"> Delete Completed Tasks (<%= taskDone %>) </button>  <% } %>
        </script>    
 
 </body>
